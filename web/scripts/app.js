@@ -709,7 +709,7 @@ export class ComfyApp {
 							let imgWidth = ratio * img.width;
 							let imgX = col * cellWidth + shiftX + (cellWidth - imgWidth)/2;
 
-							ctx.drawImage(img, imgX+cell_padding, imgY+cell_padding, imgWidth-cell_padding*2, imgHeight-cell_padding*2);
+							ctx.drawImage(img, parseInt(imgX+cell_padding, 10), parseInt(imgY+cell_padding, 10), parseInt(imgWidth-cell_padding*2, 10), parseInt(imgHeight-cell_padding*2, 10));
 							if(!compact_mode) {
 								// rectangle cell and border line style
 								ctx.strokeStyle = "#8F8F8F";
@@ -738,7 +738,10 @@ export class ComfyApp {
 
 						let x = (dw - w) / 2;
 						let y = (dh - h) / 2 + shiftY;
-						ctx.drawImage(this.imgs[imageIndex], x, y, w, h);
+
+
+                        // BONAN
+						ctx.drawImage(this.imgs[imageIndex], parseInt(x, 10), parseInt(y, 10), parseInt(w, 10), parseInt(h, 10));
 
 						const drawButton = (x, y, sz, text) => {
 							const hovered = LiteGraph.isInsideRectangle(mouse[0], mouse[1], x + this.pos[0], y + this.pos[1], sz, sz);

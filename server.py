@@ -292,6 +292,11 @@ class PromptServer():
                             buffer = BytesIO()
                             if image_format in ['jpeg'] or request.rel_url.query.get('channel', '') == 'rgb':
                                 img = img.convert("RGB")
+                            
+                            # resize previews
+                            aspect = img.width/img.height
+                            img.thumbnail((200, int(300/aspect)), Image.Resampling.LANCZOS)
+
                             img.save(buffer, format=image_format, quality=quality)
                             buffer.seek(0)
 
@@ -334,6 +339,9 @@ class PromptServer():
 
                             return web.Response(body=alpha_buffer.read(), content_type='image/png',
                                                 headers={"Content-Disposition": f"filename=\"{filename}\""})
+                    # proper support for webp images
+                    elif filename.endswith(".webp"):
+                        return web.FileResponse(file, headers={"Content-Type": "image/webp", "Content-Disposition": f"filename=\"{filename}\""})
                     else:
                         return web.FileResponse(file, headers={"Content-Disposition": f"filename=\"{filename}\""})
 
